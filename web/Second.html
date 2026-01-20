@@ -7,18 +7,19 @@
 </head>
 <body>
     <h1>PowerShell Runner</h1>
-    <button id="runBtn">Run PowerShell Script</button>
+    <button id="runBtn" onclick="runScript('Fake-Data')">Fake Data</button>
+    <button id="runBtn" onclick="runScript('List-Files')">List Files</button>
+    <button id="runBtn" onclick="runScript('Test-Connect')">Test Connection</button>
     <p id="status"></p>
 
     <script>
         const status = document.getElementById('status');
-        const runBtn = document.getElementById('runBtn');
 
-        runBtn.addEventListener('click', () => {
+        function runScript(scriptName){
             status.innerText = ""; // Clear previous output
             
             // Open a connection to the streaming endpoint
-            const eventSource = new EventSource('/run/Say-Hello');
+            const eventSource = new EventSource(`/run/${scriptName}`);
 
             eventSource.onmessage = (event) => {
                 // Append the new data to the page
@@ -29,7 +30,7 @@
                 // Close the connection when the server finishes (or errors)
                 eventSource.close();
             };
-        });
+        }
     </script>
 </body>
 </html>
